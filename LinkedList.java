@@ -202,6 +202,101 @@ class LList {
         }
     }
 
+    public void deleteDuplicateValue(){
+        if(front==null){
+            System.out.println("Linked List is Empty");
+            return;
+        }
+        HashSet<Integer> set=new HashSet<>();
+        Node temp=front;
+        while(temp!=null){
+            set.add(temp.data);
+            temp=temp.next;
+        }
+        front=null;
+        for(int data : set){
+            addFirst(data);
+        }
+    }
+
+    public void deleteEvenValue(){
+        if(front==null){
+            return;
+        }
+
+        while(front!=null && front.data%2==0){
+            front=front.next;
+        }
+
+        Node temp=front;
+        Node pre=null;
+
+        while(temp!=null){
+            if(temp.data%2==0){
+                pre.next=temp.next;
+            }else{
+                pre=temp;
+            }
+            temp=temp.next;
+        }
+    }
+
+    public void deleteODDValue(){
+        if(front==null){
+            return;
+        }
+
+        while(front!=null && front.data%2!=0){
+            front=front.next;
+        }
+
+        Node temp=front;
+        Node pre=null;
+
+        while(temp!=null){
+            if(temp.data%2!=0){
+                pre.next=temp.next;
+            }else{
+                pre=temp;
+            }
+            temp=temp.next;
+        }
+    }
+
+    public void deleteEVENPosition(){
+        if(front==null){
+            return;
+        }
+        
+        Node temp=front;
+        while(temp!=null){
+            if(temp.next!=null){
+                temp.next=temp.next.next;
+            }
+            temp=temp.next;
+        }
+
+    }
+
+    public void deleteODDPosition(){
+        if(front==null){
+            return;
+        }
+        front=front.next;
+        if(front==null){
+            return;
+        }
+        
+        Node temp=front;
+        while(temp!=null){
+            if(temp.next!=null){
+                temp.next=temp.next.next;
+            }
+            temp=temp.next;
+        }
+
+    }
+
     public void display() {
         if (front == null) {
             System.out.println("LinkedList is empty");
