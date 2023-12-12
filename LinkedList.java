@@ -1,313 +1,233 @@
-class Main {
-    public static void main(String args[]) {
-        LList l = new LList();
-        l.addFirst(10);
-        l.addLast(20);
-        l.display();
-        l.deleteFirst();
-        l.deleteLast();
-        l.addFirst(44);
-        l.display();
-        l.insertBefore(33, 44);
-        l.display();
-        l.insertBefore(36, 44);
-        l.insertAfter(40, 36);
-        l.insertBetween(36,36 ,40);
-        l.DeleteNode(44);
-        // l.DeleteNode(36);
-        // l.insertBeforeAll(366, 36);
-        l.display();
-    }
-}
-
-class LList {
-    Node front;
-
+class LinkedList {
     class Node {
         int data;
         Node next;
 
-        Node(int data) {
+        public Node(int data) {
             this.data = data;
-            next = null;
         }
     }
 
+    Node head;
+    Node tail;
+    int size = 0;
+
     public void addFirst(int data) {
-        Node newnode = new Node(data);
-        if (front == null) {
-            front = newnode;
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
             return;
         }
-        newnode.next = front;
-        front = newnode;
+
+        newNode.next = head;
+        head = newNode;
+
     }
 
     public void addLast(int data) {
-        Node newnode = new Node(data);
-        if (front == null) {
-            front = newnode;
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
             return;
         }
-        Node temp = front;
-        while (temp.next != null) {
+
+        tail.next = newNode;
+        tail = newNode;
+    }
+
+    public int removeFirst() {
+        if (head == null) {
+            System.out.println("LinkedList is Empty ");
+            return Integer.MIN_VALUE;
+        }
+        int val = head.data;
+        head = head.next;
+        return val;
+    }
+
+    public int removeLast() {
+        if (head == null) {
+            System.out.println("LinkedList is Empty ");
+            return Integer.MIN_VALUE;
+        }
+        Node temp = head;
+        while (temp.next != tail) {
             temp = temp.next;
         }
-        temp.next = newnode;
+        int val = tail.data;
+        tail = temp;
+        tail.next = null;
+        return val;
     }
 
-    public void deleteFirst() {
-        if (front == null) {
-            System.out.println("LinkedList is empty");
-            return;
+    public int nthNodeFromEnd(int n) {
+        if (head == null) {
+            System.out.println("LinkedList is Empty ");
+            return Integer.MIN_VALUE;
         }
-        System.out.println(front.data + " is deleted");
-        front = front.next;
-    }
-
-    public void deleteLast() {
-        if (front == null) {
-            System.out.println("LinkedList is empty");
-            return;
-        }
-        if (front.next == null) {
-            System.out.println(front.data + " is deleted");
-            front = null;
-            return;
-        }
-        Node temp = front;
-        while (temp.next.next != null) {
-            temp = temp.next;
-        }
-        System.out.println(temp.next.data + " is deleted");
-        temp.next = null;
-    }
-
-    public void insertBefore(int data,int target){
-        if(front==null){
-            System.out.println("LinkedList is Empty");
-            return;
-        }
-        Node newnode=new Node(data);
-        if(front.data==target){
-          newnode.next=front;
-          front=newnode;
-          return;  
-        }
-
-        Node temp=front;
-        while(temp.next!=null){
-            if(temp.next.data==target){
-                newnode.next=temp.next;
-                temp.next=newnode;
-                break;
-            }
-            temp=temp.next;
-        }
-        if(temp.next==null){
-            System.out.println("Target Value Not Found");
-        }
-    }
-
-    public void insertAfter(int data,int target){
-        if(front==null){
-            System.out.println("LinkedList is Empty");
-            return;
-        }
-        Node temp=front;
-        while(temp!=null){
-            if(temp.data==target){
-                Node newnode=new Node(data);
-                newnode.next=temp.next;
-                temp.next=newnode;
-                break;
-            }
-            temp=temp.next;
-        }
-        if(temp==null){
-            System.out.println("Target Value Not Found");
-        }
-    }
-
-    public void insertBetween(int data,int aTarget,int bTerget){
-        if(front==null){
-            System.out.println("LinkedList is Empty");
-            return;
-        }
-        if(front.next==null){
-        System.out.println("Only One Node In LinkedList");
-          return;  
-        }
-
-        Node temp=front;
-        int cnt=0;
-        while(temp.next!=null){
-            if(temp.data==aTarget&&temp.next.data==bTerget){
-                Node newnode=new Node(data);
-                newnode.next=temp.next;
-                temp.next=newnode;
-                cnt++;
-                break;
-            }
-            temp=temp.next;
-        }
-        if(cnt==0){
-            System.out.println("Target Value Not Found");
-        }
-    }
-
-    public void insertBeforeAll(int data,int target){
-        if(front==null){
-            System.out.println("LinkedList is Empty");
-            return;
-        }
-        Node newnode=new Node(data);
-        if(front.data==target){
-          newnode.next=front;
-          front=newnode;
-          return;  
-        }
-
-        Node temp=front;
-        int cnt=0;
-        while(temp.next!=null){
-            if(temp.next.data==target){
-                newnode.next=temp.next;
-                temp.next=newnode;
-                cnt++;
-            }
-            temp=temp.next;
-        }
-        if(cnt==0){
-            System.out.println("Target Value Not Found");
-        }
-    }
-
-    public void DeleteNode(int target){
-        if(front==null){
-            System.out.println("LinkedList is Empty");
-            return;
-        }
-
-        Node temp=front;
-        while(temp.next!=null){
-            if(temp.next.data==target){
-                temp.next=temp.next.next;
-                break;
-            }
-            temp=temp.next;
-        }
-        if(temp.next==null){
-            System.out.println("Target Value Not Found");
-        }
-    }
-
-    public void deleteDuplicateValue(){
-        if(front==null){
-            System.out.println("Linked List is Empty");
-            return;
-        }
-        HashSet<Integer> set=new HashSet<>();
-        Node temp=front;
-        while(temp!=null){
-            set.add(temp.data);
-            temp=temp.next;
-        }
-        front=null;
-        for(int data : set){
-            addFirst(data);
-        }
-    }
-
-    public void deleteEvenValue(){
-        if(front==null){
-            return;
-        }
-
-        while(front!=null && front.data%2==0){
-            front=front.next;
-        }
-
-        Node temp=front;
-        Node pre=null;
-
-        while(temp!=null){
-            if(temp.data%2==0){
-                pre.next=temp.next;
-            }else{
-                pre=temp;
-            }
-            temp=temp.next;
-        }
-    }
-
-    public void deleteODDValue(){
-        if(front==null){
-            return;
-        }
-
-        while(front!=null && front.data%2!=0){
-            front=front.next;
-        }
-
-        Node temp=front;
-        Node pre=null;
-
-        while(temp!=null){
-            if(temp.data%2!=0){
-                pre.next=temp.next;
-            }else{
-                pre=temp;
-            }
-            temp=temp.next;
-        }
-    }
-
-    public void deleteEVENPosition(){
-        if(front==null){
-            return;
-        }
-        
-        Node temp=front;
-        while(temp!=null){
-            if(temp.next!=null){
-                temp.next=temp.next.next;
-            }
-            temp=temp.next;
-        }
-
-    }
-
-    public void deleteODDPosition(){
-        if(front==null){
-            return;
-        }
-        front=front.next;
-        if(front==null){
-            return;
-        }
-        
-        Node temp=front;
-        while(temp!=null){
-            if(temp.next!=null){
-                temp.next=temp.next.next;
-            }
-            temp=temp.next;
-        }
-
-    }
-
-    public void display() {
-        if (front == null) {
-            System.out.println("LinkedList is empty");
-            return;
-        }
-        Node temp = front;
-        System.out.println("LinkedList is : ");
+        //n=(size-n+1)
+        Node temp = head;
+        int sz = 0;
         while (temp != null) {
-            System.out.print(temp.data + " ");
+            sz++;
             temp = temp.next;
         }
-        System.out.println();
+        if (sz == n) {
+            return removeFirst();
+        }
+
+        int nFirst = (sz - n );
+        temp = head;
+        int i = 1;
+        if (i > nFirst) {
+            return Integer.MIN_VALUE;
+        }
+        while (i < nFirst) {
+            temp = temp.next;
+            i++;
+        }
+        int val = temp.next.data;
+        temp.next = temp.next.next;
+        return val;
+    }
+
+    public void print() {
+        if (head == null) {
+            System.out.println("LinkedList is Empty ");
+            return;
+        }
+
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + "->");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+
+    public int inteSearch(int target) {
+        if (head == null) {
+            System.out.println("LinkedList is Empty ");
+            return -1;
+        }
+        Node temp = head;
+        int i = 0;
+        while (temp != null) {
+            if (temp.data == target) {
+                return i;
+            }
+            temp = temp.next;
+            i++;
+        }
+
+        return -1;
+    }
+
+    public int searchRec(Node head, int target) {
+        if (head == null) {
+            return -1;
+        }
+        if (head.data == target) {
+            return 0;
+        }
+        int val = searchRec(head.next, target);
+        if (val == -1) {
+            return -1;
+        }
+        return  val+ 1;
+    }
+
+    public int recsearch(int target) {
+        return searchRec(head, target);
+    }
+
+    public boolean isPalindron(){
+        Node slow=head;
+        Node fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node curr = slow;
+        Node pre = null;
+        Node next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+
+        Node temp=head;
+        while (temp != null && pre != null) {
+            if (temp.data != pre.data) {
+                return false;
+            }
+            temp = temp.next;
+            pre = pre.next;
+        }
+
+        return true;
+    }
+
+    public void zigZag() {
+        //find mid
+        Node slow = head;
+        Node fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        Node mid = slow;
+        //reverce mid to end
+        Node curr = mid.next;
+        mid.next = null;
+        Node pre = null;
+        Node next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+
+        Node left = head;
+        Node right = pre;
+        Node nextL, nextR;
+        //alt merge- zigzag
+        while (left != null && right != null) {
+            nextL = left.next;
+            left.next = right;
+            nextR = right.next;
+            right.next = nextL;
+
+            left = nextL;
+            right = nextR;
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        LinkedList ll = new LinkedList();
+        // ll.addFirst(2);
+        // ll.print();
+        // // ll.addFirst(2);
+        // ll.addLast(0);
+        // ll.addLast(2);
+        // ll.print();
+        // System.out.println(ll.isPalindron());
+        ll.addLast(1);
+        ll.addLast(2);
+        ll.addLast(3);
+        ll.addLast(4);
+        ll.addLast(5);
+        ll.addLast(6);
+        ll.print();
+        ll.zigZag();
+        ll.print();
     }
 }
